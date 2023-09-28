@@ -68,7 +68,7 @@ pipeline{
             steps{
                script{
                    
-                   mvnBuild()
+                   mvnBuildPy()
                }
             }
         }
