@@ -67,7 +67,7 @@ pipeline{
          when { expression {  params.action == 'create' } }
             steps{
                script{         
-                   mvnBuildPy()
+                   mvnBuilPy()
                }
             }  
         }
