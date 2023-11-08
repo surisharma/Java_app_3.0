@@ -89,9 +89,9 @@ pipeline{
                    dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }  
-           stage ('email') {  
-           when { expression {  params.action == 'create' } }
-            steps{    
+         stage ('email') {  
+         when { expression {  params.action == 'create' } }
+           steps{    
                 post {
                  always{
                   archiveArtifacts artifacts: 'target/*.txt', onlyIfSuccessful: true
