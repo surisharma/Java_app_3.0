@@ -97,7 +97,7 @@ pipeline{
                }
             }
         }
-                post {
+           post {
             always{
                 archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
                 
@@ -108,7 +108,7 @@ pipeline{
                 
             cleanWs()
             }
-        }
+         }
         stage('Docker Image Push : DockerHub '){
          when { expression {  params.action == 'create' } }
             steps{
