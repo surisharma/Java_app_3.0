@@ -19,7 +19,7 @@ pipeline{
             steps{
             gitCheckout(
                 branch: "main",
-                url: "https://github.com/surisharma/Java_app_3.0.git"
+                url: "https://github.com/praveen1994dec/Java_app_3.0.git"
             )
             }
         }
@@ -43,41 +43,34 @@ pipeline{
                }
             }
         }
-         //stage('Static code analysis: Sonarqube'){
-          //when { expression {  params.action == 'create' } }
-            // steps{
-              //  script{
+       //  stage('Static code analysis: Sonarqube'){
+       //   when { expression {  params.action == 'create' } }
+       //      steps{
+       //         script{
                    
-                //    def SonarQubecredentialsId = 'sonarqube-api'
-                  //  statiCodeAnalysis(SonarQubecredentialsId)
-                //}
-             //}
-        //}
-        //stage('Quality Gate Status Check : Sonarqube'){
-          //when { expression {  params.action == 'create' } }
-             //steps{
-                //script{
+       //             def SonarQubecredentialsId = 'sonarqube-api'
+       //             statiCodeAnalysis(SonarQubecredentialsId)
+       //         }
+       //      }
+       // }
+       // stage('Quality Gate Status Check : Sonarqube'){
+       //   when { expression {  params.action == 'create' } }
+       //      steps{
+       //         script{
                    
-                    //def SonarQubecredentialsId = 'sonarqube-api'
-                    //QualityGateStatus(SonarQubecredentialsId)
-                //}
-             //}
-        //}
+       //             def SonarQubecredentialsId = 'sonarqube-api'
+       //             QualityGateStatus(SonarQubecredentialsId)
+       //         }
+       //      }
+       // }
         stage('Maven Build : maven'){
          when { expression {  params.action == 'create' } }
             steps{
-               script{         
-                   mvnBuilPy()
+               script{
+                   
+                   mvnBuild()
                }
-            }  
-        }
-        stage('Jfrog : JarUpload'){
-         when { expression {  params.action == 'create' } }
-            steps{
-               script{         
-                   jfrog()
-               }
-            }  
+            }
         }
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
@@ -97,7 +90,6 @@ pipeline{
                }
             }
         }
-         
         stage('Docker Image Push : DockerHub '){
          when { expression {  params.action == 'create' } }
             steps{
@@ -117,6 +109,7 @@ pipeline{
             }
         }      
     }
+
     post {
             always{
                 archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
