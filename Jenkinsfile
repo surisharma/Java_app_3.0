@@ -43,26 +43,26 @@ pipeline{
                }
             }
         }
-         stage('Static code analysis: Sonarqube'){
-          when { expression {  params.action == 'create' } }
-             steps{
-                script{
+         //stage('Static code analysis: Sonarqube'){
+          //when { expression {  params.action == 'create' } }
+            // steps{
+              //  script{
                    
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    statiCodeAnalysis(SonarQubecredentialsId)
-                }
-             }
-        }
-        stage('Quality Gate Status Check : Sonarqube'){
-          when { expression {  params.action == 'create' } }
-             steps{
-                script{
+                //    def SonarQubecredentialsId = 'sonarqube-api'
+                  //  statiCodeAnalysis(SonarQubecredentialsId)
+                //}
+             //}
+        //}
+        //stage('Quality Gate Status Check : Sonarqube'){
+          //when { expression {  params.action == 'create' } }
+             //steps{
+                //script{
                    
-                    def SonarQubecredentialsId = 'sonarqube-api'
-                    QualityGateStatus(SonarQubecredentialsId)
-                }
-             }
-        }
+                    //def SonarQubecredentialsId = 'sonarqube-api'
+                    //QualityGateStatus(SonarQubecredentialsId)
+                //}
+             //}
+        //}
         stage('Maven Build : maven'){
          when { expression {  params.action == 'create' } }
             steps{
@@ -95,6 +95,18 @@ pipeline{
                    
                    dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
+            }
+        }
+                post {
+            always{
+                archiveArtifacts artifacts: '*.txt', onlyIfSuccessful: true
+                
+                emailext to: "surinder2805@gmail.com",
+                subject: "jenkins build:${currentBuild.currentResult}: ${env.JOB_NAME}",
+                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME}\nMore Info can be found here: ${env.BUILD_URL}",
+                attachmentsPattern: '*.txt'
+                
+            cleanWs()
             }
         }
         stage('Docker Image Push : DockerHub '){
