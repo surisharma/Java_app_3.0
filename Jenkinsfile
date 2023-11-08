@@ -88,7 +88,8 @@ pipeline{
                    
                    dockerImageScan("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
-            }  
+            }
+         }   
          stage ('email') {  
          when { expression {  params.action == 'create' } }
            steps{    
