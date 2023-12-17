@@ -23,7 +23,7 @@ pipeline{
             )
             }
         }
-         stage('Unit Test maven'){
+        stage('Unit Test maven'){
          
          when { expression {  params.action == 'create' } }
 
@@ -34,7 +34,7 @@ pipeline{
                }
             }
         }
-         stage('Integration Test maven'){
+        stage('Integration Test maven'){
          when { expression {  params.action == 'create' } }
             steps{
                script{
@@ -81,7 +81,7 @@ pipeline{
                }
             }
         }
-         stage('Docker Image Scan: trivy '){
+        stage('Docker Image Scan: trivy '){
          when { expression {  params.action == 'create' } }
             steps{
                script{
@@ -90,7 +90,7 @@ pipeline{
                }
             }
          }   
-         stage ('email') {  
+        stage ('email') {  
          when { expression {  params.action == 'create' } }
            steps{    
                 post {
